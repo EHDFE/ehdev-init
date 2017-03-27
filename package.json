@@ -1,0 +1,26 @@
+{
+  "name": "ehdev-init",
+  "version": "1.0.0",
+  "description": "ehdev init plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macisi/ehdev-init.git"
+  },
+  "keywords": [
+    "ehdev"
+  ],
+  "author": "ryan.bian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/macisi/ehdev-init/issues"
+  },
+  "homepage": "https://github.com/macisi/ehdev-init#readme",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "inquirer": "^3.0.6"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "standard",
+  "libiary": {
+    "commonLib": [ "./lib/common.js" ]
+  },
+  "lodash": {
+    "path": "node_modules/lodash/lodash.min.js",
+    "alias": "_"
+  },
+  "proxy": {
+    "/someApiPath": "http://some.host/someApiPath"
+  },
+  "browser_support": {
+    "DEVELOPMENT": [ "last 2 versions" ],
+    "PRODUCTION": [ "last 2 versions" ]
+  },
+  "publicPath": "http://your.publishserver.address/"
+}

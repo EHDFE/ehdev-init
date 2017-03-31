@@ -4,7 +4,7 @@ const path = require('path');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 
-const tplConfig = require('./template.json');
+const tplConfig = require('./template.js');
 const util = require('./util');
 
 

@@ -5,7 +5,8 @@ const inquirer = require('inquirer');
 
 const pkg = require('../package.json');
 const project = require('./project');
-const tplConfig = require('./template.json');
+const tplConfig = require('./template.js');
+const tplList = Object.keys(tplConfig);
 
 const projectRoot = process.cwd();
 const configPath = path.join(projectRoot, 'abc.json');
@@ -43,7 +44,7 @@ async function setup() {
       if (res.override === 'Yes') {
         createConfigJson(true);
       }
-    })
+    });
   } else {
     createConfigJson(false);
   }
@@ -51,32 +52,44 @@ async function setup() {
 
 module.exports = {
 
-  command: 'init <type>',
+  command: 'init',
 
   description: pkg.description,
 
   options: [
-    [ '-c, --config', 'generate config only' ]
+    [ '    --type <type>', 'shortcut of template option' ],
+    // [ '-c, --config', 'generate config only' ]
   ],
 
-  action(type, command) {
-    const config = command.config;
-
-    if (!tplConfig[type]) {
-      
-      console.log(`
-        Sorry, the template you've selected is not defined yet!
-        Please contract the maintainer of the project: ${chalk.green(pkg.author)}.
-      `);
-
+  action(command) {
+    console.log(arguments)
+    let type;
+    if (arguments.length === 1) {
+        if (command.type) {
+          type = command.type;
+        }
+    }
+    if (!type) {
+      inquirer.prompt([
+        {
+          type: 'list',
+          name: 'type',
+          message: 'Please select your template?',
+          default: tplList[0],
+          choices: tplList,
+        }
+      ]).then((res) => {
+        project.init(res.type);
+      });
     } else {
-
-      if (config) {
-        project.initConfig(type);
+      if (!tplConfig[type]) {
+        console.log(`
+          Sorry, the template you've selected is not defined yet!
+          Please contact the maintainer: ${chalk.green(pkg.author)}.
+        `);
       } else {
         project.init(type);
       }
-
     }
   },
 };

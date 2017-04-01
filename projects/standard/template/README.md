@@ -1,8 +1,11 @@
-# MARVELOUS PROJECT
+# <%= name %>
 ---
 
 ## Project Description
 ---
+
+<%= description %>
+
 
 | Dir | Explaination |
 | --- | --- |

@@ -3,9 +3,11 @@
   "libiary": {
     "commonLib": [ "./lib/common.js" ]
   },
-  "lodash": {
-    "path": "node_modules/lodash/lodash.min.js",
-    "alias": "_"
+  "externals": {
+    "lodash": {
+      "path": "node_modules/lodash/lodash.min.js",
+      "alias": "_"
+    }
   },
   "proxy": {
     "/someApiPath": "http://some.host/someApiPath"

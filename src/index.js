@@ -5,8 +5,7 @@ const inquirer = require('inquirer');
 
 const pkg = require('../package.json');
 const project = require('./project');
-const tplConfig = require('./template.js');
-const tplList = Object.keys(tplConfig);
+const projectConfig = require('../projects/index.js');
 
 const projectRoot = process.cwd();
 const configPath = path.join(projectRoot, 'abc.json');
@@ -57,39 +56,34 @@ module.exports = {
   description: pkg.description,
 
   options: [
-    [ '    --type <type>', 'shortcut of template option' ],
+    [ '    --type <type>', '项目类型' ],
+    [ '    --skipinstall', '跳过安装依赖' ],
     // [ '-c, --config', 'generate config only' ]
   ],
 
   action(command) {
-    console.log(arguments)
-    let type;
-    if (arguments.length === 1) {
-        if (command.type) {
-          type = command.type;
-        }
-    }
-    if (!type) {
+    const options = {
+      skipinstall: command.skipinstall,
+    };
+    if (command.type) {
+      project.init(Object.assign(options, {
+        type: command.type,
+      }));
+    } else {
+      const projects = Object.keys(projectConfig);
       inquirer.prompt([
         {
           type: 'list',
           name: 'type',
-          message: 'Please select your template?',
-          default: tplList[0],
-          choices: tplList,
+          message: 'Please select your project type?',
+          default: projects[0],
+          choices: projects,
         }
       ]).then((res) => {
-        project.init(res.type);
+        project.init(Object.assign(options, {
+          type: res.type,
+        }));
       });
-    } else {
-      if (!tplConfig[type]) {
-        console.log(`
-          Sorry, the template you've selected is not defined yet!
-          Please contact the maintainer: ${chalk.green(pkg.author)}.
-        `);
-      } else {
-        project.init(type);
-      }
     }
   },
 };

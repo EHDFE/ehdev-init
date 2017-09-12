@@ -70,20 +70,29 @@ module.exports = {
         type: command.type,
       }));
     } else {
-      const projects = Object.keys(projectConfig);
-      inquirer.prompt([
-        {
-          type: 'list',
-          name: 'type',
-          message: 'Please select your project type?',
-          default: projects[0],
-          choices: projects,
-        }
-      ]).then((res) => {
-        project.init(Object.assign(options, {
-          type: res.type,
-        }));
-      });
+      inquirer.prompt([        {
+        type: 'list',
+        name: 'inittype',
+        message: 'Please select your initial type?',
+        default: 'module',
+        choices: ['module','project'],
+      }]).then((initType)=>{
+        const typelist = Object.keys(projectConfig[initType.inittype]);
+        inquirer.prompt([
+          {
+            type: 'list',
+            name: 'type',
+            message: `Please select your ${initType.inittype} type?`,
+            default: typelist[0],
+            choices: typelist,
+          }
+        ]).then((res) => {
+          project.init(Object.assign(options, {
+            type: res.type,
+            inittype:initType.inittype
+          }));
+        });
+      })
     }
   },
 };

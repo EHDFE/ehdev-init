@@ -1,0 +1,37 @@
+<div class="modal fade" id="<%= name %>Detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-bgcolor">
+                <span class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <h4 class="modal-title pl15" id="myModalLabel">入库单详情</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="control-label">预计到货时间：</label>
+                        <div class="common-content">
+                            {{detail.receiveDate}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">创建人：</label>
+                        <div class="common-content">
+                            {{detail.createMan}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label">入库备注：</label>
+                        <div class="common-content">
+                            {{detail.remark}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-none">
+                <button type="button" class="btn btn-success mr50" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

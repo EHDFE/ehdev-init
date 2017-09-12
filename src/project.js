@@ -39,9 +39,9 @@ const commonQuestions = [
 
 exports.init = async (options) => {
 
-  const { type, skipinstall } = options;
+  const { inittype,type, skipinstall } = options;
   
-  if (!projectConfig[type]) {
+  if (!projectConfig[inittype][type]) {
     console.log(`
       Project: ${chalk.red(type)} is not defined.
     `);
@@ -50,21 +50,30 @@ exports.init = async (options) => {
 
   console.log(`
     Welcome to ehdev project generator!
-    I will use project ${chalk.green(type)} to generate your project.
+    I will use ${inittype} ${chalk.green(type)} to generate your project.
   `);
 
-  const projectQuestions = require(`../projects/${type}/`);
+  const projectQuestions = require(`../projects/${type}/`).questions;
+  const projectAction = require(`../projects/${type}/`).action;
+  const templateFilter = require(`../projects/${type}/`).filter;
 
   try {
+    const questions = inittype === 'project'?commonQuestions.concat(projectQuestions):projectQuestions;
     const [ answers, templates ] = await Promise.all([
-      inquirer.prompt(commonQuestions.concat(projectQuestions)),
-      getTemplates(type),
+      inquirer.prompt(questions),
+      getTemplates(inittype,type),
     ]);
-    const templateRoot = path.resolve(__dirname, projectConfig[type]);
-    templates.forEach(template => {
-      renderTo(path.join(templateRoot, template), answers, path.resolve(process.cwd(), template));
+    const templateRoot = path.resolve(__dirname, projectConfig[inittype][type]);
+
+    const tpls = templateFilter&&templateFilter(templates,answers)||templates;
+
+    tpls.forEach(template => {
+      const targetTemplate = template.replace(/\$\{(\w+)\}/g,function(match,p1,index,oirgin){  
+        return answers[p1];
+      }) 
+      renderTo(path.join(templateRoot, template), answers, path.resolve(process.cwd(), targetTemplate),projectAction);
     });
-    if (!skipinstall) {
+    if (type ==='project'&&!skipinstall) {
       co(function* (){
         yield npminstall({
           root: process.cwd(),
@@ -80,32 +89,3 @@ exports.init = async (options) => {
   }
 };
 
-// exports.initConfig = (type) => {
-
-//   console.log(`
-//     Welcome to ehdev project generator!
-//     I will generate the ${chalk.green('abc.json')} for your project: ${chalk.green(type)}
-//   `);
-//   const source = path.resolve(__dirname, projectConfig[type], 'abc.json');
-//   const target = path.resolve(process.cwd(), 'abc.json');
-
-//   if (fs.existsSync(source)) {
-//     // 判断是否已经存在
-//     inquirer.prompt([
-//       {
-//         type: 'list',
-//         name: 'override',
-//         message: `The project already has the config file ${chalk.green('abc.json')}. Would you like to override the file ?`,
-//         default: 'Yes',
-//         choices: ['Yes', 'No'],
-//       }
-//     ]).then((res) => {
-//       if (res.override === 'Yes') {
-//         util.extractConfig(source, target);
-//       }
-//     });
-//   } else {
-//     util.extractConfig(source, target);
-//   }
-
-// };

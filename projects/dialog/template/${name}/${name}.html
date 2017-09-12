@@ -1,0 +1,52 @@
+<div ng-controller="<%= name %>Ctrl">
+    <div class="box content-padding">
+        <div class="search-form form-inline">
+            <%_ if(city){ _%>
+            <div class="form-group input-group" >
+                <span class="input-group-addon">切换城市</span>
+                <select citys-select-directive ng-model="entityid" d-item="dItem" class="form-control" is-all="true"></select>
+            </div>
+            <%_ } _%>
+            <%_ if(datePicker){ _%>
+            <div class="form-group input-group">
+                <span class="input-group-addon">选择时间</span>
+                <input type="text" class="form-control input-date" ng-model="datestart"  init-date="30" date-picker-directive>
+                <span class="input-group-addon input-group-addon-no">-</span>
+                <input type="text" class="form-control input-date" ng-model="dateend" init-date="0" date-picker-directive >
+            </div>
+            <%_ } _%>
+            <%_ if(searchInputPlaceholder){ _%>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="<%= searchInputPlaceholder %>" ng-model="fetchParam.keyword">
+            </div>
+            <%_ } _%>
+            <button type="button" class="btn btn-success" ng-click="search()">搜索</button>
+        </div>
+        <div class="tablebox" table-directive api-url="apiUrl" items="lists" page-size="pageSize" curr-page="currPage" fetch="fetch"
+            fetch-param="fetchParam" format-data="formatData" is-debug="true" test="/<%= packageName %>/<%= moduleName %>/<%= name %>/<%= name %>.json">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="nowrap">序号</th>
+                        <th class="nowrap">入库单号</th>
+                        <th width="handle">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="list in lists">
+                        <td class="nowrap">{{ ($index+1)+(currPage-1)*pageSize }}</td>
+                        <td class="nowrap">{{ list.code}}</td>
+                        <td class="handle">
+                            <%_ if(detailPage){ _%>
+                            <a href="" data-toggle="modal" ng-click="checkDetail(list)" data-target="#<%= name %>Detail">详情</a>
+                            <%_ } _%>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <%_ if(detailPage){ _%>
+    <div <%= detailDirective %> detailId="detailId"></div>
+    <%_ } _%>
+</div>

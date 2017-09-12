@@ -3,7 +3,6 @@ const fs = require('fs');
 const fsPath = require('fs-path');
 const glob = require('glob');
 const ejs = require('ejs');
-
 const projectConfig = require('../projects/index');
 
 function renderTemplate(file, data) {
@@ -26,7 +25,8 @@ function renderTemplate(file, data) {
   });
 }
 
-exports.renderTo = async (file, data, target) => {
+exports.renderTo = async (file, data, target,action) => {
+  var data = action&&action(data)||data;
   const fileContent = await renderTemplate(file, data);
   fsPath.writeFile(target, fileContent, (err, data) => {
     if (err) {
@@ -36,10 +36,10 @@ exports.renderTo = async (file, data, target) => {
   })
 };
 
-exports.getTemplates = (type) => {
+exports.getTemplates = (inittype,type) => {
   return new Promise((resolve, reject) => {
     glob('**/*', {
-      cwd: path.resolve(__dirname, projectConfig[type]),
+      cwd: path.resolve(__dirname, projectConfig[inittype][type]),
       nodir: true,
     }, (err, files) => {
       if (err) {

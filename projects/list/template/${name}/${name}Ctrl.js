@@ -5,11 +5,15 @@ define([
 ) {
         return function (app, elem, attrs, scope) {
             app.controller('<%= name %>Ctrl', ['$rootScope', '$scope', '$state', '$stateParams', '$timeout', 'G', '<%= name %>Service', function ($rootScope, $scope, $state, $stateParams, $timeout, G, service) {
+                <%_ if(table){ _%>
                 $scope.apiUrl = service.getFetchUrl();
-                $scope.fetchParam = {};
+                $scope.fetchParam = {};=
                 $scope.formatData = function(data){
-                    return data;
-                }   
+                    data.forEach(function(item){
+
+                    })
+                }
+                <%_ } _%>
                 <%_ if(city){ _%>
                 $scope.$watch('entityid',function(newVal){
                     if(newVal){
@@ -19,8 +23,29 @@ define([
                 <%_ } _%>
                 <%_ if(detailPage){ _%>
                 $scope.showDetail = function (detail) {  
-                    $scope.detailId = detail.detailId;
+                    $scope.detailId = detail.<%= primaryKey %>;
                 }
+                <%_ } _%>
+                <%_ if(deleteItem){ _%>
+                $scope.deleteItem = function($event,item) {
+                    var $alert = G.confirm({
+                        $target: $($event.target),
+                        msg: '确认删除这条记录么?',
+                        position: 'bottom',
+                        submit: function () {
+                            service.deleteItem({
+                                <%= primaryKey %>: item.<%= primaryKey %>
+                            }).then(function (data) {
+                                data = data.data;
+                                if (data.result === 'success') {
+                                    G.alert('删除成功');
+                                    $alert.hide();
+                                    $scope.fetch({currPage:1})
+                                }
+                            })
+                        }
+                    })
+                };
                 <%_ } _%>
                 <%_ if(datePicker){ _%>
                 $scope.$watch('datestart',function(newVal){
@@ -38,9 +63,11 @@ define([
                     }
                 })
                 <%_ } _%>
+                <%_ if(table){ _%>
                 $scope.search = function () {
                     $scope.fetch({ currPage: 1 });
                 }
+                <%_ } _%>
             }]);
         }
     });

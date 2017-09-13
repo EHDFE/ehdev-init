@@ -16,46 +16,30 @@ module.exports = {
             default:'listGenerator',
         },
         {
+            name: 'dialogName',
+            type: 'input',
+            message:'Dialog title:',
+            default:'对话框',
+        },
+        {
             name: 'pluginList',
             type: 'checkbox',
             message:'Plugins :',
-            choices:['tableDirective','citySelectDirective','datePickerDirective','searchInputPlaceholder'],
-            default:['tableDirective'],
+            choices:['citySelectDirective','datePickerDirective','tableDirective'],
+            default:[],
         },
         {
-            name: 'listurl',
-            type: 'input',
-            message:'list url:',
-            default:'/goodstaxiAdmin/getUrl',
-            when:function(answers){
-                return (answers.pluginList.indexOf('tableDirective')>-1)
-            }
-        },
-        {
-            name: 'searchInputPlaceholder',
-            type: 'input',
-            message:'search input placeholder :',
-            default:'请填写关键字',
-            when:function(answers){
-                return (answers.pluginList.indexOf('searchInputPlaceholder')>-1)
-            }
-        },
-        {
-            name: 'detailPage',
+            name: 'hasForm',
             type: 'confirm',
-            message:'Do you need detail page?',
+            message:'Do you want a form?',
+            default:true,
         },
         {
-            name: 'detailPageDetail',
-            type: 'input',
-            message:'Detail page url:',
-            default:'/goodstaxiAdmin/getDetailUrl',
-            when:function(answers){
-                return answers.detailPage;
-            }
-        },
-
-
+            name: 'twoButton',
+            type: 'confirm',
+            message:'Two button?',
+            default:true,
+        }
     ],
     action:function(data){
         var pwd = path.basename(process.cwd());
@@ -64,14 +48,8 @@ module.exports = {
             table:(data.pluginList.indexOf('tableDirective')>-1),
             city:(data.pluginList.indexOf('citySelectDirective')>-1),
             datePicker:(data.pluginList.indexOf('datePickerDirective')>-1),
-            searchInputPlaceholder:(data.pluginList.indexOf('searchInputPlaceholder')>-1)&&data.searchInputPlaceholder,
-            detailDirective:data.name.replace(/([A-Z])/g,(match,p1)=>{return '-'+p1.toLowerCase()})+'-detail',
-            packageName
-        });
-    },
-    filter:function(templates,data){
-        return data.detailPage?templates:templates.filter((template)=>{
-            return !/Detail/.test(template)
+            packageName,
+            btnClass:data.twoButton?'modal-button-two':''
         });
     }
 };

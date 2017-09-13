@@ -1,5 +1,34 @@
 <div ng-controller="<%= name %>Ctrl">
     <div class="box content-padding">
+        <%_ if(panel){ _%>
+        <div class="panel-detail">
+            <div class="panel-title">
+                <span>基本信息</span>
+                <div class="top-line"></div>
+            </div>
+            <div class="panel-content form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">会员类型：</label>
+                    <div class="col-md-3">
+                        <input class="form-control" type="text" ng-model="" required="" autocomplete="off" placeholder="请输入客户名称" maxlength="50">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">投诉人类型：</label>
+                    <div class="col-md-8">
+                        <p class="form-control-static ng-binding" ng-bind="">大客户</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">投诉人电话：</label>
+                    <div class="col-md-8">
+                        <p class="form-control-static ng-binding" ng-bind="">大客户</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%_ } _%>
+        <%_ if(city||datePicker||selectInput||searchInput){ _%>             
         <div class="search-form form-inline">
             <%_ if(city){ _%>
             <div class="form-group input-group" >
@@ -7,23 +36,33 @@
                 <select citys-select-directive ng-model="entityid" d-item="dItem" class="form-control" is-all="true"></select>
             </div>
             <%_ } _%>
+            <%_ if(selectInput){ _%>
+            <div class="form-group input-group" >
+                <span class="input-group-addon">选择内容</span>
+                <select class="form-control" ng-model="fetchParam.status">
+                    <option value="">全部</option>
+                    <option value="选项1">选项1</option>
+                    <option value="选项2">选项2</option>
+                </select>
+            </div>
+            <%_ } _%>
             <%_ if(datePicker){ _%>
             <div class="form-group input-group">
                 <span class="input-group-addon">选择时间</span>
-                <input type="text" class="form-control input-date" ng-model="datestart"  init-date="30" date-picker-directive>
+                <input type="text" class="form-control input-date" ng-model="datestart"  init-date="-30" date-picker-directive>
                 <span class="input-group-addon input-group-addon-no">-</span>
                 <input type="text" class="form-control input-date" ng-model="dateend" init-date="0" date-picker-directive >
             </div>
             <%_ } _%>
-            <%_ if(searchInputPlaceholder){ _%>
+            <%_ if(searchInput){ _%>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="<%= searchInputPlaceholder %>" ng-model="fetchParam.keyword">
+                <input type="text" class="form-control" placeholder="请输入关键字" ng-model="fetchParam.keyword">
             </div>
             <%_ } _%>
-            <%_ if(city||datePicker||searchInputPlaceholder){ _%>
             <button type="button" class="btn btn-success" ng-click="search()">搜索</button>
-            <%_ } _%>
         </div>
+        <%_ } _%>
+        <%_ if(table){ _%>
         <div class="tablebox" table-directive api-url="apiUrl" items="lists" page-size="pageSize" curr-page="currPage" fetch="fetch"
             fetch-param="fetchParam" format-data="formatData" <% if(isDebug){ %> is-debug="true" <% } %> test="/<%= packageName %>/<%= moduleName %>/<%= name %>/<%= name %>.json">
             <table class="table table-hover">
@@ -38,15 +77,22 @@
                     <tr ng-repeat="list in lists">
                         <td class="nowrap">{{ ($index+1)+(currPage-1)*pageSize }}</td>
                         <td class="nowrap">{{ list.code}}</td>
+                        <%_ if(tooltip){ _%>
+                        <td tooltip="{{list.context}}" position="right" >{{ list.context}}</td>
+                        <%_ } _%>
                         <td class="handle">
                             <%_ if(detailPage){ _%>
                             <a href="" data-toggle="modal" ng-click="showDetail(list)" data-target="#<%= name %>Detail">详情</a>
+                            <%_ } _%>
+                            <%_ if(deleteItem){ _%>
+                            <a  href="javascript:void(0);" ng-click="deleteItem($event,list)" >删除</button>
                             <%_ } _%>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <%_ } _%>
     </div>
     <%_ if(detailPage){ _%>
     <div <%= detailDirective %> detail-id="detailId"></div>

@@ -23,7 +23,7 @@ define([
                     controller: function ($scope, $element, $attrs, $transclude, $log, $http, G) {
                         function getDetail(){
                             service.getDetail({
-                                detailId:$scope.detailId
+                                <%= primaryKey %>:$scope.detailId
                             }).then(function(data){
                                 if(data.data&&data.data.result==='success'){
                                     $scope.detail = data.data.data;

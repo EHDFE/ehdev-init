@@ -10,6 +10,9 @@ define([
     <%_ if(datePicker){ _%>
     'scmsModules/datePicker/datePickerDirective',
     <%_ } _%>
+    <%_ if(tooltip){ _%>
+    'scmsModules/tooltip/tooltip',
+    <%_ } _%>
     <%_ if(detailPage){ _%>
     '<%= moduleName %>/<%= name %>/<%= name %>Detail',
     <%_ } _%>
@@ -27,6 +30,9 @@ define([
     <%_ if(datePicker){ _%>
     datePickerDirective,
     <%_ } _%>
+    <%_ if(tooltip){ _%>
+    tooltip,
+    <%_ } _%>
     <%_ if(detailPage){ _%>
     <%= name %>Detail,
     <%_ } _%>
@@ -42,6 +48,9 @@ define([
     <%_ } _%>                    
     <%_ if(datePicker){ _%>
             datePickerDirective(app, elem, attrs, scope);
+    <%_ } _%>     
+    <%_ if(tooltip){ _%>
+            tooltip(app, elem, attrs, scope);
     <%_ } _%>     
     <%_ if(detailPage){ _%>               
             <%= name -%>Detail(app, elem, attrs, scope);

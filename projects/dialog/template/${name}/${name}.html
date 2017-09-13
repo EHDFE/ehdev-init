@@ -1,52 +1,134 @@
-<div ng-controller="<%= name %>Ctrl">
-    <div class="box content-padding">
-        <div class="search-form form-inline">
-            <%_ if(city){ _%>
-            <div class="form-group input-group" >
-                <span class="input-group-addon">切换城市</span>
-                <select citys-select-directive ng-model="entityid" d-item="dItem" class="form-control" is-all="true"></select>
+<div class="modal fade" id="<%= name %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-bgcolor">
+                <span class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <h4 class="modal-title pl15" id="myModalLabel"><%= dialogName %></h4>
             </div>
+            <%_ if(hasForm){ _%>
+            <form name="myForm" novalidate="novalidate" ng-submit="submit($event)" class="form-horizontal" role="form">
             <%_ } _%>
-            <%_ if(datePicker){ _%>
-            <div class="form-group input-group">
-                <span class="input-group-addon">选择时间</span>
-                <input type="text" class="form-control input-date" ng-model="datestart"  init-date="30" date-picker-directive>
-                <span class="input-group-addon input-group-addon-no">-</span>
-                <input type="text" class="form-control input-date" ng-model="dateend" init-date="0" date-picker-directive >
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">手机号码：</label>
+                    <div class="col-md-8 form-content">
+                        <div class="form-inline input-group w200">
+                            <input name="mobilenumber" class="form-control" type="text" ng-model="number" required="requeired">
+                            <span class="input-group-btn">
+                                <button class="btn btn-info" type="button" ng-click="">搜索</button>
+                            </span>
+                        </div>
+                        <div class="error-msg"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">客户名称：</label>
+                    <div class="col-md-3 form-content">
+                        <input class="form-control" type="text" ng-model="name" required="" autocomplete="off" placeholder="请输入客户名称" maxlength="50">
+                    <div class="error-msg"></div>
+                    </div>
+                </div>
+                <%_ if(city){ _%>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">选择城市：</label>
+                    <div class="col-md-3 form-content">
+                            <select citys-select-directive ng-model="entityid" d-item="dItem" class="form-control" is-all="true"></select>
+                    <div class="error-msg"></div>
+                    </div>
+                </div>
+                <%_ } _%>
+                <%_ if(datePicker){ _%>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">选择时间：</label>
+                    <div class="col-md-3 form-content">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-date" ng-model="datestart"  init-date="30" date-picker-directive>
+                            <span class="input-group-addon input-group-addon-no">-</span>
+                            <input type="text" class="form-control input-date" ng-model="dateend" init-date="0" date-picker-directive >      
+                        </div>
+                    <div class="error-msg"></div>
+                    </div>
+                </div>
+                <%_ } _%>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">会员类型：</label>
+                    <div class="col-md-3 pb20">
+                         <p class="form-control-static ng-binding" >大客户</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">组织类型：</label>
+                    <div class="col-md-3">
+                        <select class="form-control" ng-model="orgType">
+                            <option value="分支机构">分支机构</option>
+                        </select>
+                        <div class="error-msg"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">客户编码：</label>
+                    <div class="col-md-8 form-inline form-content">
+                        <input class="form-control w350" type="text" ng-model="code" required="" autocomplete="off" placeholder="请输入客户编码" maxlength="17">
+                        <a href="#">查看编码规则</a>
+                        <div class="error-msg"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-2 control-label">所需车型：</label>
+                    <div class="col-md-8 form-inline">
+                        <label class="checkbox-inline checkbox-inline-checked">
+                                小面
+                        </label>
+                        <label class="checkbox-inline" >
+                                中面
+                        </label>
+                            <div class="error-msg"></div>
+                        </div>
+                    </div>      
+                <div class="form-group">
+                    <label for="" class="col-md-2 control-label">授信额度：</label>
+                    <div class="col-md-8 form-content">
+                        <div class="input-group input-group-unit col-sm-1">
+                            <input class="form-control" type="text" ng-model="range" required="requeired" autocomplete="off">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                        <div class="error-msg">请输入授信额度</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="col-md-2 control-label">是否开票：</label>
+                    <div class="col-md-8 form-inline">
+                        <label class="radio-inline radio-inline-checked">
+                            是
+                        </label>
+                        <label class="radio-inline" >
+                            否
+                        </label>
+                        <div class="error-msg"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">备注：</label>
+                    <div class="col-md-8 form-content">
+                        <textarea class="form-control" ng-model="remark" maxlength="400"></textarea>
+                        <div class="error-msg"></div>
+                    </div>
+                </div>    
             </div>
-            <%_ } _%>
-            <%_ if(searchInputPlaceholder){ _%>
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="<%= searchInputPlaceholder %>" ng-model="fetchParam.keyword">
+            <div class="modal-footer border-none <%= btnClass  %>">
+                <%_ if(btnClass){ _%>
+                <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                <%_ } _%>
+                <%_ if(hasForm){ _%>
+                <button type="submit" class="btn btn-success">确定</button>
+                <%_ } _%>
+                <%_ if(!hasForm){ _%>
+                <button type="button" class="btn btn-success" ng-click="submit()">确定</button>
+                <%_ } _%>
             </div>
+            <%_ if(hasForm){ _%>
+            </form>
             <%_ } _%>
-            <button type="button" class="btn btn-success" ng-click="search()">搜索</button>
-        </div>
-        <div class="tablebox" table-directive api-url="apiUrl" items="lists" page-size="pageSize" curr-page="currPage" fetch="fetch"
-            fetch-param="fetchParam" format-data="formatData" is-debug="true" test="/<%= packageName %>/<%= moduleName %>/<%= name %>/<%= name %>.json">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th class="nowrap">序号</th>
-                        <th class="nowrap">入库单号</th>
-                        <th width="handle">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="list in lists">
-                        <td class="nowrap">{{ ($index+1)+(currPage-1)*pageSize }}</td>
-                        <td class="nowrap">{{ list.code}}</td>
-                        <td class="handle">
-                            <%_ if(detailPage){ _%>
-                            <a href="" data-toggle="modal" ng-click="checkDetail(list)" data-target="#<%= name %>Detail">详情</a>
-                            <%_ } _%>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
-    <%_ if(detailPage){ _%>
-    <div <%= detailDirective %> detailId="detailId"></div>
-    <%_ } _%>
 </div>

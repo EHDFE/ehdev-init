@@ -1,12 +1,2 @@
-#<%= name %>Detail .common-content {
-	line-height: 34px;
-	display: inline-block;
-}
-#<%= name %>Detail .control-label {
-	display: inline-block;
-	line-height: 34px;
-	padding-top: 0px;
-}
-#<%= name %>Detail .col-md-2 {
-	padding-right: 0px;
-}
+@charset "utf-8";
+

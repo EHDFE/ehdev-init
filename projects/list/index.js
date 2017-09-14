@@ -5,26 +5,26 @@ module.exports = {
   questions: [{
       name: 'packageName',
       type: 'input',
-      message: 'Package Name:',
+      message: 'Package Name(包名):',
       default: packageName,
     },
     {
       name: 'name',
       type: 'input',
-      message: 'Module Name:',
+      message: 'Module Name(模块名):',
       default: 'listGenerator',
     },
     {
       name: 'pluginList',
       type: 'checkbox',
-      message: 'Plugins :',
-      choices: ['tableDirective', 'selectInput','searchInput','deleteFunc','citySelectDirective', 'datePickerDirective','tooltip','panel'],
+      message: 'Plugins(插件/功能):',
+      choices: ['tableDirective', 'selectInput(选择框)','searchInput(搜索框)','deleteFunc(删除某一项)','citySelectDirective', 'datePickerDirective','tooltip','panel'],
       default: ['tableDirective'],
     },
     {
       name: 'listurl',
       type: 'input',
-      message: 'List url:',
+      message: 'List url(列表接口):',
       default: '/goodstaxiAdmin/getUrl',
       when: function (answers) {
         return (answers.pluginList.indexOf('tableDirective') > -1)
@@ -33,31 +33,31 @@ module.exports = {
     {
       name: 'deleteItemUrl',
       type: 'input',
-      message: 'Delete url:',
+      message: 'Delete url(删除接口):',
       default: '/goodstaxiAdmin/deleteUrl',
       when: function (answers) {
-        return (answers.pluginList.indexOf('deleteFunc') > -1)
+        return (answers.pluginList.indexOf('deleteFunc(删除某一项)') > -1)
       }
     },
     {
       name: 'detailPage',
       type: 'confirm',
-      message: 'Do you need detail page?',
+      message: 'Do you need detail page(是否需要详情页)?',
       default:false
     },
     {
       name: 'primaryKey',
       type: 'input',
-      message: 'Primary key:',
+      message: 'Primary key(主键):',
       default: 'partyid',
       when: function (answers) {
-        return answers.detailPage;
+        return answers.detailPage||(answers.pluginList.indexOf('deleteFunc(删除某一项)') > -1);
       }
     },
     {
       name: 'detailPageDetail',
       type: 'input',
-      message: 'Detail page url:',
+      message: 'Detail page url(详情接口):',
       default: '/goodstaxiAdmin/getDetailUrl',
       when: function (answers) {
         return answers.detailPage;
@@ -81,9 +81,9 @@ module.exports = {
       datePicker: (data.pluginList.indexOf('datePickerDirective') > -1),
       panel: (data.pluginList.indexOf('panel') > -1),
       tooltip: (data.pluginList.indexOf('tooltip') > -1),
-      deleteItem: (data.pluginList.indexOf('deleteFunc') > -1),
-      selectInput: (data.pluginList.indexOf('selectInput') > -1),
-      searchInput: (data.pluginList.indexOf('searchInput') > -1),
+      deleteItem: (data.pluginList.indexOf('deleteFunc(删除某一项)') > -1),
+      selectInput: (data.pluginList.indexOf('selectInput(选择框)') > -1),
+      searchInput: (data.pluginList.indexOf('searchInput(搜索框)') > -1),
       detailDirective: data.name.replace(/([A-Z])/g, (match, p1) => {
         return '-' + p1.toLowerCase()
       }) + '-detail',

@@ -7,7 +7,7 @@ define([
             app.controller('<%= name %>Ctrl', ['$rootScope', '$scope', '$state', '$stateParams', '$timeout', 'G', '<%= name %>Service', function ($rootScope, $scope, $state, $stateParams, $timeout, G, service) {
                 <%_ if(table){ _%>
                 $scope.apiUrl = service.getFetchUrl();
-                $scope.fetchParam = {};=
+                $scope.fetchParam = {};
                 $scope.formatData = function(data){
                     data.forEach(function(item){
 

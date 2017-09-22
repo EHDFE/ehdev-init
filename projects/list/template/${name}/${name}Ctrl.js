@@ -54,14 +54,28 @@ define([
                     }else{
                         $scope.fetchParam.datestart = '';
                     }
-                })
+                });
                 $scope.$watch('dateend',function(newVal){
                     if(newVal){
                         $scope.fetchParam.dateend = newVal+' 23:59:59';
                     }else{
                         $scope.fetchParam.dateend = '';
                     }
-                })
+                });
+                $scope.$watch('fetchParam.startdate',function(newVal){
+                    if(newVal){
+                        if(newVal.slice(0,10)!==$scope.datestart){
+                           $scope.datestart = newVal.slice(0,10);
+                        }
+                    }
+                });
+                $scope.$watch('fetchParam.enddate',function(newVal){
+                    if(newVal){
+                        if(newVal.slice(0,10)!==$scope.dateend){
+                           $scope.dateend = newVal.slice(0,10);
+                        }
+                    }
+                });
                 <%_ } _%>
                 <%_ if(table){ _%>
                 $scope.search = function () {

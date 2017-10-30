@@ -16,16 +16,7 @@
   },
   "proxy": {
     "/": {
-      "proxy_pass": "http://managementtest.ehuodi.com"
-    },
-    "/ehuodiBedrockApi": {
-      "proxy_pass": "http://managementtest.ehuodi.com"
-    },
-    "/ehuodiCrmApi": {
-      "proxy_pass": "http://10.7.13.58"
-    },
-    "/goodstaxiAdmin": {
-      "proxy_pass": "http://myportaltest.tf56.com"
+      "proxy_pass": "http://some.url"
     }
   }
 }

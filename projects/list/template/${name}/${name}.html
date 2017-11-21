@@ -28,7 +28,7 @@
             </div>
         </div>
         <%_ } _%>
-        <%_ if(city||datePicker||selectInput||searchInput){ _%>             
+        <%_ if(city||datePicker||selectInput||searchInput||exportButton){ _%>             
         <div class="search-form form-inline">
             <%_ if(city){ _%>
             <div class="form-group input-group" >
@@ -59,7 +59,12 @@
                 <input type="text" class="form-control" placeholder="请输入关键字" ng-model="fetchParam.keyword">
             </div>
             <%_ } _%>
+            <%_ if(city||datePicker||selectInput||searchInput){ _%> 
             <button type="button" class="btn btn-success" ng-click="search()">搜索</button>
+            <%_ } _%>
+            <%_ if(exportButton){ _%>
+            <button type="button" class="btn btn-success" ng-click="export()">导出</button>  
+            <%_ } _%>
         </div>
         <%_ } _%>
         <%_ if(table){ _%>

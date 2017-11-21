@@ -82,6 +82,11 @@ define([
                     $scope.fetch({ currPage: 1 });
                 }
                 <%_ } _%>
+                <%_ if(exportButton){ _%>
+                $scope.export = function() {
+                    G.download('/url', $scope.fetchParam);
+                }
+                <%_ } _%>
             }]);
         }
     });

@@ -18,7 +18,7 @@ module.exports = {
       name: 'pluginList',
       type: 'checkbox',
       message: 'Plugins(插件/功能):',
-      choices: ['tableDirective', 'selectInput(选择框)','searchInput(搜索框)','deleteFunc(删除某一项)','citySelectDirective', 'datePickerDirective','tooltip','panel'],
+      choices: ['tableDirective', 'selectInput(选择框)','searchInput(搜索框)','deleteFunc(删除某一项)', 'export(导出)', 'citySelectDirective', 'datePickerDirective','tooltip','panel'],
       default: ['tableDirective'],
     },
     {
@@ -84,6 +84,7 @@ module.exports = {
       deleteItem: (data.pluginList.indexOf('deleteFunc(删除某一项)') > -1),
       selectInput: (data.pluginList.indexOf('selectInput(选择框)') > -1),
       searchInput: (data.pluginList.indexOf('searchInput(搜索框)') > -1),
+      exportButton: (data.pluginList.indexOf('export(导出)') > -1),
       detailDirective: data.name.replace(/([A-Z])/g, (match, p1) => {
         return '-' + p1.toLowerCase()
       }) + '-detail',

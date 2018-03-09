@@ -1,60 +1,40 @@
-define([
-    '<%= moduleName %>/<%= name %>/<%= name %>Ctrl',
-    '<%= moduleName %>/<%= name %>/<%= name %>Service',
-    <%_if(table){ _%>
-    'scmsModules/table/table',
-    <%_ } _%>
-    <%_ if(city){ _%>
-    'scmsModules/citysSelect/citysSelectDirective',
-    <%_ } _%>
-    <%_ if(datePicker){ _%>
-    'scmsModules/datePicker/datePickerDirective',
-    <%_ } _%>
-    <%_ if(tooltip){ _%>
-    'scmsModules/tooltip/tooltip',
-    <%_ } _%>
-    <%_ if(detailPage){ _%>
-    '<%= moduleName %>/<%= name %>/<%= name %>Detail',
-    <%_ } _%>
-    'text!<%= moduleName %>/<%= name %>/<%= name %>.html',
-    'css!<%= moduleName %>/<%= name %>/<%= name %>.css'
-], function (
-    ctrl,
-    service,
+import ctrl from './<%= name %>Ctrl';
+import service from './<%= name %>Service';
+<%_ if(table){ _%>
+import table from 'scmsModules/table/table';
+<%_ } _%>
+<%_ if(city){ _%>
+import citysSelectDirect from 'scmsModules/citysSelect/citysSelectDirective';
+<%_ } _%>
+<%_ if(datePicker){ _%>
+import datePickerDirective from 'scmsModules/datePicker/datePickerDirective';
+<%_ } _%>
+<%_ if(tooltip){ _%>
+import tooltip from 'scmsModules/tooltip/tooltip';
+<%_ } _%>
+<%_ if(detailPage){ _%>
+import <%= name %>Detail from './<%= name %>Detail';
+<%_ } _%>
+import html from './<%= name %>.html';
+import './<%= name %>.css';
+
+export default (app, elem, attrs, scope) => {
+    ctrl(app, elem, attrs, scope);
+    service(app, elem, attrs, scope);
     <%_ if(table){ _%>
-    table,
-    <%_ } _%>
-    <%_ if(city){ _%>
-    citysSelectDirect,
-    <%_ } _%>
-    <%_ if(datePicker){ _%>
-    datePickerDirective,
-    <%_ } _%>
-    <%_ if(tooltip){ _%>
-    tooltip,
-    <%_ } _%>
-    <%_ if(detailPage){ _%>
-    <%= name %>Detail,
-    <%_ } _%>
-    html) {
-        return function (app, elem, attrs, scope) {
-            ctrl(app, elem, attrs, scope);
-            service(app, elem, attrs, scope);
-    <%_ if(table){ _%>
-            table(app, elem, attrs, scope);
+    table(app, elem, attrs, scope);
     <%_ } _%>               
     <%_ if(city){ _%>
-            citysSelectDirect(app, elem, attrs, scope);
+    citysSelectDirect(app, elem, attrs, scope);
     <%_ } _%>                    
     <%_ if(datePicker){ _%>
-            datePickerDirective(app, elem, attrs, scope);
+    datePickerDirective(app, elem, attrs, scope);
     <%_ } _%>     
     <%_ if(tooltip){ _%>
-            tooltip(app, elem, attrs, scope);
+    tooltip(app, elem, attrs, scope);
     <%_ } _%>     
     <%_ if(detailPage){ _%>               
-            <%= name -%>Detail(app, elem, attrs, scope);
+    <%= name -%>Detail(app, elem, attrs, scope);
     <%_ } _%>
-            elem.append(html);
-        }
-    });
+    elem.append(html);
+}

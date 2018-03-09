@@ -1,5 +1,5 @@
 const path = require('path');
-const packageName = path.resolve(process.cwd(), '../../').split(path.sep).pop();
+const packageName = path.resolve(process.cwd(), '../../../').split(path.sep).pop();
 
 module.exports = {
   questions: [{

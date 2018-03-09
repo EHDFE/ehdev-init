@@ -1,58 +1,45 @@
-define([
-    'angular',
-    <%_if(table){ _%>
-    'scmsModules/table/table',
-    <%_ } _%>
-    <%_ if(city){ _%>
-    'scmsModules/citysSelect/citysSelectDirective',
-    <%_ } _%>
-    <%_ if(datePicker){ _%>
-    'scmsModules/datePicker/datePickerDirective',
-    <%_ } _%>
-    '<%= moduleName %>/<%= name %>/<%= name %>Service',
-    'text!<%= moduleName %>/<%= name %>/<%= name %>.html',
-    'css!<%= moduleName %>/<%= name %>/<%= name %>.css'
-], function (
-    angular,
+import angular from 'angular';
+<%_if(table){ _%>
+import table from 'scmsModules/table/table';
+<%_ } _%>
+<%_ if(city){ _%>
+import citysSelectDirect from 'scmsModules/citysSelect/citysSelectDirective';
+<%_ } _%>
+<%_ if(datePicker){ _%>
+import datePickerDirective from 'scmsModules/datePicker/datePickerDirective';
+<%_ } _%>
+import from '<%= moduleName %>/<%= name %>/<%= name %>Service';
+import from 'text!<%= moduleName %>/<%= name %>/<%= name %>.html';
+import 'css!<%= moduleName %>/<%= name %>/<%= name %>.css';
+
+export default (app, elem, attrs, scope) => {
     <%_ if(table){ _%>
-    table,
-    <%_ } _%>
-    <%_ if(city){ _%>
-    citysSelectDirect,
-    <%_ } _%>
+    table(app, elem, attrs, scope);
+    <%_ } _%>               
+        <%_ if(city){ _%>
+    citysSelectDirect(app, elem, attrs, scope);
+    <%_ } _%>                    
     <%_ if(datePicker){ _%>
-    datePickerDirective,
-    <%_ } _%>
-    service,    
-    html) {
-        return function (app, elem, attrs, scope) {
-            <%_ if(table){ _%>
-            table(app, elem, attrs, scope);
-            <%_ } _%>               
-             <%_ if(city){ _%>
-            citysSelectDirect(app, elem, attrs, scope);
-            <%_ } _%>                    
-            <%_ if(datePicker){ _%>
-            datePickerDirective(app, elem, attrs, scope);
-            <%_ } _%>  
-            service(app, elem, attrs, scope);
-            app.directive('<%= name %>', ['$cookies','<%= name %>Service','G',function ($cookies,service,G) {
-                return {
-                    template: html,
-                    restrict: 'EA',
-                    replace: true,
-                    scope: {
-                       foo: '='
-                    },
-                    link: function postLink($scope, $element, $attrs) {
-                    },
+    datePickerDirective(app, elem, attrs, scope);
+    <%_ } _%>  
+    service(app, elem, attrs, scope);
+    app.directive('<%= name %>', ['$cookies','<%= name %>Service','G',function ($cookies,service,G) {
+        return {
+            template: html,
+            restrict: 'EA',
+            replace: true,
+            scope: {
+                foo: '='
+            },
+            link: function postLink($scope, $element, $attrs) {
+            },
 
-                    controller: function ($scope, $element, $attrs, $transclude, $log, $http, G) {
-                        $scope.submit = function($event){
+            controller: function ($scope, $element, $attrs, $transclude, $log, $http, G) {
+                $scope.submit = function($event){
 
-                        }
-                    }
-                };
-            }]);
-        }
-    });
+                }
+            }
+        };
+    }]);
+}
+
